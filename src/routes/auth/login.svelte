@@ -10,6 +10,10 @@
 				status: 302
 			};
 		}
+
+		return {
+			status: 200
+		}
 	}
 </script>
 
