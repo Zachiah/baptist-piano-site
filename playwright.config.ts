@@ -3,7 +3,8 @@ const config = {
 	webServer: {
 		command: 'npm run build && npm run preview',
 		port: 3000
-	}
+	},
+	testMatch: ['tests/e2e/**/*.ts']
 };
 
 export default config;
