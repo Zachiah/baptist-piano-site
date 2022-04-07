@@ -90,6 +90,14 @@ export const post = composeApiMiddleware(
 					AUTHENTICATION_TOKEN_EXPIRATION_HOURS * 60 * 60
 				}`
 			]
+		},
+		body: {
+			user: {
+				id: fetchedEmailToken.user.id,
+				email: fetchedEmailToken.user.email,
+				firstName: fetchedEmailToken.user.firstName,
+				lastName: fetchedEmailToken.user.lastName
+			}
 		}
 	};
 });

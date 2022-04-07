@@ -8,9 +8,7 @@
 </script>
 
 <script lang="ts">
-import { goto } from '$app/navigation';
-
-	export let user: User | null = null;
+	import { session } from '$app/stores';
 </script>
 
 <nav class="">
@@ -20,18 +18,18 @@ import { goto } from '$app/navigation';
 		<NavLink href="/contact">Contact</NavLink>
 		<div class="flex-grow" />
 
-		{#if user}
+		{#if $session.user}
 			<NavLink href="/dashboard">Dashboard</NavLink>
 			<NavLink
 				on:click={async () => {
 					const request = await fetch('/api/auth/logout', {
-						method: "POST"
+						method: 'POST'
 					});
-					goto('/auth/login');
+					$session.user = null;
 				}}>Logout</NavLink
 			>
 		{:else}
-			<NavLink href="/login">Login</NavLink>
+			<NavLink href="/auth/login">Login</NavLink>
 		{/if}
 	</ul>
 </nav>

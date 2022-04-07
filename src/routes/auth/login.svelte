@@ -1,5 +1,6 @@
 <script context="module">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
+	import { session } from '$app/stores';
 
 	import { EMAIL_TOKEN_LENGTH } from '$lib/config';
 	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
@@ -50,7 +51,9 @@
 			});
 
 			if (response.status === 200) {
+				$session.user = await response.json();
 				await goto('/');
+				window.location.href = '/';
 			} else {
 				error = 'Invalid Token';
 			}
