@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ fetch }) {
-		const response = await fetch('/auth/api/validate_request_auth');
+		const response = await fetch('/api/auth/validate_request_auth');
 
 		if (response.status === 200) {
 			return {

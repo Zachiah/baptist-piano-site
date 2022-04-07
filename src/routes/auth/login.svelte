@@ -1,7 +1,7 @@
 <script context="module">
 	/** @type {import('./login').Load} */
 	export async function load({ fetch }) {
-		const response = await fetch('/auth/api/validate_request_auth');
+		const response = await fetch('/api/auth/validate_request_auth');
 
 		if (response.status === 200) {
 			// TODO: ADD FLASH MESSAGE
@@ -52,7 +52,7 @@
 				return;
 			}
 
-			const response = await fetch('/auth/api/authenticate', {
+			const response = await fetch('/api/auth/authenticate', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -91,7 +91,7 @@
 				error = '';
 			}
 
-			const response = await fetch(`/auth/api/login`, {
+			const response = await fetch(`/api/auth/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
