@@ -1,10 +1,8 @@
-import getAuthUser from '$lib/getAuthUser';
 import getRequestJson from '$lib/getRequestJson';
 import type Joi from 'joi';
-import type { ConfigurableMiddleware } from './ConfigurableMiddleware';
-import type { Middleware } from './Middleware';
+import type { ConfigurableApiMiddleware } from '../types';
 
-const withSchema: ConfigurableMiddleware<{ schema: Joi.Schema }, { schemaValue: any }> =
+const withSchema: ConfigurableApiMiddleware<{ schema: Joi.Schema }, { schemaValue: any }> =
 	(conf) => (cb) => async (event) => {
 		const { value: jsonValue, error: jsonError } = await getRequestJson(event.request);
 

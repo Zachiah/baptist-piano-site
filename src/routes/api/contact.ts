@@ -1,6 +1,6 @@
-import composeMiddleware from '$lib/middleware/composeMiddleware';
-import withSchema from '$lib/middleware/withSchema';
-import withUser from '$lib/middleware/withUser';
+import withApiSchema from '$lib/middleware/api/withApiSchema';
+import withApiUser from '$lib/middleware/api/withApiUser';
+import { composeApiMiddleware } from '$lib/middleware/utils';
 import sendEmail from '$lib/sendEmail';
 import { NOREPLY_EMAIL } from '$lib/sensitiveConfig';
 import Joi from 'joi';
@@ -9,9 +9,9 @@ const schema = Joi.object({
 	message: Joi.string().required()
 });
 
-export const get = composeMiddleware(
-	withSchema({ schema }),
-	withUser
+export const get = composeApiMiddleware(
+	withApiSchema({ schema }),
+	withApiUser
 )(async (event) => {
 	event.middleware.schemaValue;
 

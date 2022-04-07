@@ -1,8 +1,8 @@
 import getAuthUser from '$lib/getAuthUser';
 import type { User } from '@prisma/client';
-import type { Middleware } from './Middleware';
+import type { ApiMiddleware } from '../types';
 
-const withUser: Middleware<{ user: User }> = (cb) => async (event) => {
+const withApiUser: ApiMiddleware<{ user: User }> = (cb) => async (event) => {
 	const { value: user, error: userError } = await getAuthUser(event.request);
 
 	if (userError) {
@@ -23,4 +23,4 @@ const withUser: Middleware<{ user: User }> = (cb) => async (event) => {
 	});
 };
 
-export default withUser;
+export default withApiUser;
