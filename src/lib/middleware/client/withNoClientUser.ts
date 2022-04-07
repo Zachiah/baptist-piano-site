@@ -12,11 +12,26 @@ const withNoClientUser: ConfigurableClientMiddleware<{ redirect?: string }, {}> 
 		if (user) {
 			return {
 				status: 302,
-				redirect: config.redirect || '/dashboard'
+				redirect: config.redirect || '/dashboard',
+				session: {
+					...event.session,
+					user: {
+						id: user.id,
+						email: user.email,
+						firstName: user.firstName,
+						lastName: user.lastName
+					}
+				}
 			};
 		}
 
-		return cb(event);
+		return cb({
+			...event,
+			session: {
+				...event.session,
+				user: null
+			}
+		});
 	};
 
 export default withNoClientUser;

@@ -12,10 +12,19 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 			if (config.required) {
 				return {
 					status: 302,
-					redirect: '/auth/login'
+					redirect: '/auth/login',
+					session: {
+						...event.session,
+						user: null
+					}
 				};
 			}
-			return cb(event);
+			return cb({
+				...event,
+				session: {
+					user: null
+				}
+			});
 		}
 
 		const user = jsonValue.user;
@@ -26,6 +35,15 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 				middleware: {
 					...event.middleware,
 					user
+				},
+				session: {
+					...event.session,
+					user: {
+						id: user.id,
+						email: user.email,
+						firstName: user.firstName,
+						lastName: user.lastName
+					}
 				}
 			});
 		} else {
@@ -33,7 +51,11 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 			if (config.required) {
 				return {
 					status: 302,
-					redirect: '/auth/login'
+					redirect: '/auth/login',
+					session: {
+						...event.session,
+						user: null
+					}
 				};
 			}
 			return cb(event);
