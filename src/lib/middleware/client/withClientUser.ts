@@ -22,6 +22,7 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 			return cb({
 				...event,
 				session: {
+					...event.session,
 					user: null
 				}
 			});

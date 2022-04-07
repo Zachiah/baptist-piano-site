@@ -11,7 +11,10 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		vite: {
-			plugins: [windicss()],
+			plugins: [
+				windicss({
+				})
+			],
 			optimizeDeps: {
 				include: ['joi', '@sendgrid/mail', 'cookie']
 			}

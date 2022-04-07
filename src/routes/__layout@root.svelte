@@ -8,6 +8,8 @@
 
 <script lang="ts">
 	import { session } from '$app/stores';
+	import Flash from '$lib/components/Flash.svelte';
+	import { createFlash } from '$lib/Flash';
 </script>
 
 <nav class="">
@@ -15,6 +17,7 @@
 		<NavLink href="/">Home</NavLink>
 		<NavLink href="/about">About</NavLink>
 		<NavLink href="/contact">Contact</NavLink>
+
 		<div class="flex-grow" />
 
 		{#if $session.user}
@@ -25,6 +28,13 @@
 						method: 'POST'
 					});
 					$session.user = null;
+					$session.flash = [
+						...$session.flash,
+						createFlash({
+							type: 'info',
+							message: 'You have successfully logged out.'
+						})
+					];
 				}}>Logout</NavLink
 			>
 		{:else}
@@ -32,5 +42,7 @@
 		{/if}
 	</ul>
 </nav>
+
+<Flash />
 
 <slot />

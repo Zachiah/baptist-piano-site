@@ -11,6 +11,8 @@
 </script>
 
 <script>
+	import { createFlash } from '$lib/Flash';
+
 	const schema = Joi.object({
 		email: Joi.string()
 			.email({ tlds: { allow: false } })
@@ -52,8 +54,14 @@
 
 			if (response.status === 200) {
 				$session.user = await response.json();
+				$session.flash = [
+					...$session.flash,
+					createFlash({
+						type: 'success',
+						message: 'You have successfully logged in.'
+					})
+				];
 				await goto('/');
-				window.location.href = '/';
 			} else {
 				error = 'Invalid Token';
 			}

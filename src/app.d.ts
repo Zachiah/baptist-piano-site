@@ -8,6 +8,7 @@ declare namespace App {
 	// interface Platform {}
 	interface Session {
 		user?: import('@prisma/client').User;
+		flash: import('./lib/Flash').Flash[];
 	}
 	// interface Stuff {}
 }
