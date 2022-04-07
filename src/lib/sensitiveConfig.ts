@@ -5,3 +5,4 @@ export const JWT_ALGORITHM = 'HS256';
 export const AUTHENTICATION_TOKEN_EXPIRATION_HOURS = 12;
 export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 export const NOREPLY_EMAIL = process.env.NOREPLY_EMAIL;
+export const SERVER_RECAPTCHA_API_KEY = process.env.SERVER_RECAPTCHA_API_KEY;

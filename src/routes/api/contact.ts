@@ -2,18 +2,33 @@ import withApiSchema from '$lib/middleware/api/withApiSchema';
 import withApiUser from '$lib/middleware/api/withApiUser';
 import { composeApiMiddleware } from '$lib/middleware/utils';
 import sendEmail from '$lib/sendEmail';
-import { NOREPLY_EMAIL } from '$lib/sensitiveConfig';
+import { NOREPLY_EMAIL, SERVER_RECAPTCHA_API_KEY } from '$lib/sensitiveConfig';
 import Joi from 'joi';
+import axios from 'axios';
+import isRecaptchaKeyValid from '$lib/isRecaptchaKeyValid';
 
 const schema = Joi.object({
-	message: Joi.string().required()
+	message: Joi.string().required(),
+	recaptchaKey: Joi.string().required()
 });
 
 export const post = composeApiMiddleware(
 	withApiSchema({ schema }),
 	withApiUser
 )(async (event) => {
-	event.middleware.schemaValue;
+	const recaptchaKey = event.middleware.schemaValue.recaptchaKey;
+
+	const success = isRecaptchaKeyValid(recaptchaKey);
+
+	if (!success) {
+		return {
+			status: 400,
+			body: {
+				error: 'Invalid recaptcha key'
+			}
+		};
+	}
+	
 
 	sendEmail({
 		to: NOREPLY_EMAIL,

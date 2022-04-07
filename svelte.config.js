@@ -16,7 +16,7 @@ const config = {
 				})
 			],
 			optimizeDeps: {
-				include: ['joi', '@sendgrid/mail', 'cookie']
+				include: ['joi', '@sendgrid/mail', 'cookie', 'debug','axios']
 			}
 		}
 	}
