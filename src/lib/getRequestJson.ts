@@ -1,5 +1,5 @@
 const getRequestJson = async (
-	request: Request
+	request: Request | Response
 ): Promise<{ error: null | string; value: any | null }> => {
 	try {
 		return await {

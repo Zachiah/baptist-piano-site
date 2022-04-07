@@ -1,0 +1,37 @@
+<script lang="ts" context="module">
+	import NavLink from '$lib/components/NavLink.svelte';
+	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
+	import withClientUser from '$lib/middleware/client/withClientUser';
+	import type { User } from '@prisma/client';
+
+	export const load = withClientUser({ required: false })(sendClientMiddlewareAsPropsCallback);
+</script>
+
+<script lang="ts">
+	import { session } from '$app/stores';
+</script>
+
+<nav class="">
+	<ul class="flex">
+		<NavLink href="/">Home</NavLink>
+		<NavLink href="/about">About</NavLink>
+		<NavLink href="/contact">Contact</NavLink>
+		<div class="flex-grow" />
+
+		{#if $session.user}
+			<NavLink href="/dashboard">Dashboard</NavLink>
+			<NavLink
+				on:click={async () => {
+					const request = await fetch('/api/auth/logout', {
+						method: 'POST'
+					});
+					$session.user = null;
+				}}>Logout</NavLink
+			>
+		{:else}
+			<NavLink href="/auth/login">Login</NavLink>
+		{/if}
+	</ul>
+</nav>
+
+<slot />
