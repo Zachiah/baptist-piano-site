@@ -1,5 +1,8 @@
 import generateAuthToken from '$lib/generateAuthToken';
 import getRequestJson from '$lib/getRequestJson';
+import withSchema from '$lib/middleware/api/withApiSchema';
+import withNoApiUser from '$lib/middleware/api/withNoApiUser';
+import { composeApiMiddleware } from '$lib/middleware/utils';
 import prismaInstance from '$lib/prismaInstance';
 import { AUTHENTICATION_TOKEN_EXPIRATION_HOURS } from '$lib/sensitiveConfig';
 import { prisma, TokenType } from '@prisma/client';
@@ -11,31 +14,11 @@ const schema = Joi.object({
 	emailToken: Joi.string().required()
 });
 
-/** @type {import('./authenticate').RequestHandler} */
-export async function post({ request }) {
-	const { error: jsonError, value: jsonValue } = await getRequestJson(request);
-
-	if (jsonError) {
-		return {
-			status: 400,
-			body: {
-				error: jsonError
-			}
-		};
-	}
-
-	const { value, error } = schema.validate(jsonValue);
-
-	if (error) {
-		return {
-			status: 400,
-			body: {
-				message: error.message
-			}
-		};
-	}
-
-	const { email, emailToken } = value;
+export const post = composeApiMiddleware(
+	withSchema({ schema }),
+	withNoApiUser
+)(async (event) => {
+	const { email, emailToken } = event.middleware.schemaValue;
 
 	const fetchedEmailToken = await prismaInstance.token.findUnique({
 		where: {
@@ -103,8 +86,10 @@ export async function post({ request }) {
 		headers: {
 			Authorization: authToken,
 			'set-cookie': [
-				`jwt=${authToken}; HttpOnly; Path=/; Max-Age=${AUTHENTICATION_TOKEN_EXPIRATION_HOURS * 60 * 60}`
+				`jwt=${authToken}; HttpOnly; Path=/; Max-Age=${
+					AUTHENTICATION_TOKEN_EXPIRATION_HOURS * 60 * 60
+				}`
 			]
 		}
 	};
-}
+});

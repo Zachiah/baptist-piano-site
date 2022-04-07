@@ -1,29 +1,15 @@
 <script context="module">
-	/** @type {import('./login').Load} */
-	export async function load({ fetch }) {
-		const response = await fetch('/api/auth/validate_request_auth');
-
-		if (response.status === 200) {
-			// TODO: ADD FLASH MESSAGE
-			return {
-				redirect: '/',
-				status: 302
-			};
-		}
-
-		return {
-			status: 200
-		}
-	}
-</script>
-
-<script>
 	import { goto } from '$app/navigation';
 
 	import { EMAIL_TOKEN_LENGTH } from '$lib/config';
-
+	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
+	import withNoClientUser from '$lib/middleware/client/withNoClientUser';
 	import Joi from 'joi';
 
+	export const load = withNoClientUser({})(sendClientMiddlewareAsPropsCallback);
+</script>
+
+<script>
 	const schema = Joi.object({
 		email: Joi.string()
 			.email({ tlds: { allow: false } })

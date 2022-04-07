@@ -2,7 +2,7 @@ import getRequestJson from '$lib/getRequestJson';
 import type Joi from 'joi';
 import type { ConfigurableApiMiddleware } from '../types';
 
-const withSchema: ConfigurableApiMiddleware<{ schema: Joi.Schema }, { schemaValue: any }> =
+const withApiSchema: ConfigurableApiMiddleware<{ schema: Joi.Schema }, { schemaValue: any }> =
 	(conf) => (cb) => async (event) => {
 		const { value: jsonValue, error: jsonError } = await getRequestJson(event.request);
 
@@ -35,4 +35,4 @@ const withSchema: ConfigurableApiMiddleware<{ schema: Joi.Schema }, { schemaValu
 		});
 	};
 
-export default withSchema;
+export default withApiSchema;

@@ -1,13 +1,6 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
 	import withClientUser from '$lib/middleware/client/withClientUser';
-	import type { User } from '@prisma/client';
 
 	export const load = withClientUser({required: true})(sendClientMiddlewareAsPropsCallback);
 </script>
-
-<script lang="ts">
-	export let user: User;
-</script>
-
-{user.email}
