@@ -1,14 +1,11 @@
 <script lang="ts" context="module">
-	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
+	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 	import withClientUser from '$lib/middleware/client/withClientUser';
-	import type { User } from '@prisma/client';
 
-	export const load = withClientUser({ required: true })(sendClientMiddlewareAsPropsCallback);
+	export const load = withClientUser({ required: true })(sendClient200StatusCodeCallback);
 </script>
 
 <script lang="ts">
-	export let user: User;
-
 	let message: string = '';
 	let statusMessage: string;
 </script>

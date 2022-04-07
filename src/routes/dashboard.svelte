@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
+	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 	import withClientUser from '$lib/middleware/client/withClientUser';
 
-	export const load = withClientUser({required: true})(sendClientMiddlewareAsPropsCallback);
+	export const load = withClientUser({required: true})(sendClient200StatusCodeCallback);
 </script>

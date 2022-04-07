@@ -1,10 +1,9 @@
 <script lang="ts" context="module">
 	import NavLink from '$lib/components/NavLink.svelte';
-	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
+	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 	import withClientUser from '$lib/middleware/client/withClientUser';
-	import type { User } from '@prisma/client';
 
-	export const load = withClientUser({ required: false })(sendClientMiddlewareAsPropsCallback);
+	export const load = withClientUser({ required: false })(sendClient200StatusCodeCallback);
 </script>
 
 <script lang="ts">

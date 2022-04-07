@@ -3,11 +3,11 @@
 	import { session } from '$app/stores';
 
 	import { EMAIL_TOKEN_LENGTH } from '$lib/config';
-	import sendClientMiddlewareAsPropsCallback from '$lib/middleware/client/sendClientMiddlewareAsPropsCallback';
+	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 	import withNoClientUser from '$lib/middleware/client/withNoClientUser';
 	import Joi from 'joi';
 
-	export const load = withNoClientUser({})(sendClientMiddlewareAsPropsCallback);
+	export const load = withNoClientUser({})(sendClient200StatusCodeCallback);
 </script>
 
 <script>
