@@ -11,28 +11,36 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   firstName String?
   lastName  String?
-  email     String  @unique
-
-  tokens Token[]
+  email     String   @unique
+  role      UserRole @default(VIEWER)
+  tokens    Token[]
 }
 
 model Token {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  type TokenType
-  emailToken String? @unique
-  valid Boolean @default(true)
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  type       TokenType
+  emailToken String?   @unique
+  valid      Boolean   @default(true)
   expiration DateTime?
 
-  user User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
   userId Int
 }
 
 enum TokenType {
   EMAIL
   API
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  EDITOR
+  CREATOR
+  VIEWER
 }

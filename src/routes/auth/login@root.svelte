@@ -111,7 +111,6 @@
 					if (response.status === 200) {
 						emailSent = true;
 					} else {
-						console.log(data);
 						error = data.error ?? data.message ?? data.msg ?? 'An unknown error occurred';
 					}
 				}

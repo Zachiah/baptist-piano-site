@@ -17,8 +17,6 @@ const isRecaptchaKeyValid = async (recaptchaKey: string) => {
 	);
 
 	const json = response.data;
-	console.log(json);
-	console.log(SERVER_RECAPTCHA_API_KEY);
 
 	return json.success;
 };
