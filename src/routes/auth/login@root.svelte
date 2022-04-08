@@ -12,13 +12,15 @@
 
 <script>
 	import Button from '$lib/components/Button.svelte';
+	import Recaptcha from '$lib/components/Recaptcha.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import { createFlash } from '$lib/Flash';
 
 	const schema = Joi.object({
 		email: Joi.string()
 			.email({ tlds: { allow: false } })
-			.required()
+			.required(),
+		recaptchaToken: Joi.string().required()
 	});
 
 	const emailTokenSchema = Joi.object({
@@ -32,6 +34,7 @@
 	let emailToken = '';
 	let error = '';
 	let emailSent = false;
+	let recaptchaToken = '';
 </script>
 
 <div
@@ -83,7 +86,7 @@
 						error = 'Invalid Token';
 					}
 				} else {
-					const { error: schemaError, value } = schema.validate({ email });
+					const { error: schemaError, value } = schema.validate({ email, recaptchaToken });
 
 					if (schemaError) {
 						error = schemaError.message;
@@ -98,7 +101,8 @@
 							'Content-Type': 'application/json'
 						},
 						body: JSON.stringify({
-							email
+							email,
+							recaptchaKey: recaptchaToken
 						})
 					});
 
@@ -107,7 +111,8 @@
 					if (response.status === 200) {
 						emailSent = true;
 					} else {
-						error = data.error ?? 'An unknown error occurred';
+						console.log(data);
+						error = data.error ?? data.message ?? data.msg ?? 'An unknown error occurred';
 					}
 				}
 			}}
@@ -127,6 +132,7 @@
 					on:click={() => {
 						emailSent = false;
 						emailToken = '';
+						recaptchaToken = '';
 					}}
 				>
 					Change Email
@@ -137,6 +143,14 @@
 				<Button type="submit">Log In</Button>
 			{:else}
 				<TextInput bind:value={email} label="Email" />
+
+				<div class="mb-4 ml-auto">
+					<Recaptcha
+						on:success={(e) => {
+							recaptchaToken = e.detail.token;
+						}}
+					/>
+				</div>
 
 				<Button type="submit">Send Code</Button>
 			{/if}
