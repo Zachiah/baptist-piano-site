@@ -11,12 +11,17 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  firstName String?
-  lastName  String?
-  email     String   @unique
-  role      UserRole @default(VIEWER)
-  tokens    Token[]
+  id                   Int      @id @default(autoincrement())
+  firstName            String?
+  lastName             String?
+  gender               Gender?
+  public               Boolean?
+  allowPrivateMessages Boolean?
+
+  email  String   @unique
+  role   UserRole @default(VIEWER)
+  tokens Token[]
+
 }
 
 model Token {
@@ -43,4 +48,9 @@ enum UserRole {
   EDITOR
   CREATOR
   VIEWER
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
