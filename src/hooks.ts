@@ -8,14 +8,7 @@ export async function getSession(event: RequestEvent): Promise<App.Session> {
 
 	// purposely ignoring error here
 	return {
-		user: value
-			? {
-					id: value.id,
-					email: value.email,
-					firstName: value.firstName,
-					lastName: value.lastName
-			  }
-			: undefined,
+		user: value,
 		// TODO: consider making flash persist in db
 		flash: []
 	};

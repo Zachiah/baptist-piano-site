@@ -39,12 +39,7 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 				},
 				session: {
 					...event.session,
-					user: {
-						id: user.id,
-						email: user.email,
-						firstName: user.firstName,
-						lastName: user.lastName
-					}
+					user: user
 				}
 			});
 		} else {
