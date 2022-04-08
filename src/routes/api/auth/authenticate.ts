@@ -79,6 +79,21 @@ export const post = composeApiMiddleware(
 		}
 	});
 
+	await prismaInstance.user.update({
+		where: {
+			email
+		},
+		data: {
+			numberOfLogins: { increment: 1 }
+		}
+	});
+
+	const user = await prismaInstance.user.findUnique({
+		where: {
+			email
+		},
+	});
+
 	const authToken = generateAuthToken(createdToken.id);
 
 	return {
@@ -92,12 +107,7 @@ export const post = composeApiMiddleware(
 			]
 		},
 		body: {
-			user: {
-				id: fetchedEmailToken.user.id,
-				email: fetchedEmailToken.user.email,
-				firstName: fetchedEmailToken.user.firstName,
-				lastName: fetchedEmailToken.user.lastName
-			}
+			user: user
 		}
 	};
 });

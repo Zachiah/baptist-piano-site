@@ -35,6 +35,8 @@
 							message: 'You have successfully logged out.'
 						})
 					];
+					// clear localStorage
+					localStorage.clear();
 				}}>Logout</NavLink
 			>
 		{:else}

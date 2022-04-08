@@ -11,7 +11,7 @@ const sendEmail = async function (p: { to: string; subject: string; text: string
 		html: p.html
 	};
 
-	if (SENDGRID_API_KEY) {
+	if (SENDGRID_API_KEY.trim()) {
 		await sgMail.send(msg);
 	} else {
         // TODO: WRITE TO LOG FILE;

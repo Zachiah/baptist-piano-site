@@ -11,16 +11,22 @@ datasource db {
 }
 
 model User {
-  id                   Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
   firstName            String?
   lastName             String?
   gender               Gender?
-  public               Boolean?
+  publicProfile        Boolean?
   allowPrivateMessages Boolean?
+  age                  Int?
+  // Biography stores EditorJS JSON
+  biography            Json?
 
-  email  String   @unique
-  role   UserRole @default(VIEWER)
-  tokens Token[]
+  email          String       @unique
+  role           UserRole     @default(VIEWER)
+  numberOfLogins Int          @default(0)
+  tokens         Token[]
+  musicSkills    MusicSkill[]
 
 }
 
@@ -35,6 +41,14 @@ model Token {
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model MusicSkill {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  // description stores EditorJS JSON
+  description Json?
+  users       User[]
 }
 
 enum TokenType {

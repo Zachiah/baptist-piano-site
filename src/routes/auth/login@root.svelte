@@ -73,7 +73,7 @@
 					});
 
 					if (response.status === 200) {
-						$session.user = await response.json();
+						$session.user = (await response.json()).user;
 						$session.flash = [
 							...$session.flash,
 							createFlash({
@@ -81,7 +81,8 @@
 								message: 'You have successfully logged in.'
 							})
 						];
-						await goto('/');
+						$session.hasSeenNewUserDialog = false;
+						await goto('/dashboard');
 					} else {
 						error = 'Invalid Token';
 					}

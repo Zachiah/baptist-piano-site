@@ -9,6 +9,7 @@ declare namespace App {
 	interface Session {
 		user?: import('@prisma/client').User;
 		flash: import('./lib/Flash').Flash[];
+		hasSeenNewUserDialog?: boolean;
 	}
 	// interface Stuff {}
 }
