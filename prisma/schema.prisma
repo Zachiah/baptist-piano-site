@@ -16,7 +16,6 @@ model User {
   firstName            String?
   lastName             String?
   gender               Gender?
-  publicProfile        Boolean?
   allowPrivateMessages Boolean?
   age                  Int?
   // Biography stores EditorJS JSON
@@ -27,7 +26,8 @@ model User {
   numberOfLogins Int          @default(0)
   tokens         Token[]
   musicSkills    MusicSkill[]
-
+  followers      User[] @relation("UserFollows", references: [id])
+  following      User[] @relation("UserFollows", references: [id])
 }
 
 model Token {

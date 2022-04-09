@@ -18,6 +18,10 @@
 		"generate-jwt-token": "node ./scripts/generate-jwt-token.js"
 	},
 	"devDependencies": {
+		"@editorjs/editorjs": "^2.23.2",
+		"@editorjs/header": "^2.6.2",
+		"@editorjs/link": "^2.4.0",
+		"@editorjs/list": "^1.7.0",
 		"@playwright/test": "^1.20.0",
 		"@sendgrid/mail": "^7.6.2",
 		"@sveltejs/adapter-auto": "next",
@@ -30,6 +34,7 @@
 		"axios": "^0.26.1",
 		"cookie": "^0.4.2",
 		"dayjs": "^1.11.0",
+		"editorjs-hyperlink": "^1.0.6",
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
