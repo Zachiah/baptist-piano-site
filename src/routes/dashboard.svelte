@@ -6,24 +6,46 @@
 </script>
 
 <script lang="ts">
-	import { session } from '$app/stores';
-
-	import { onMount, tick } from 'svelte';
-	import { browser } from '$app/env';
-	import { fade } from 'svelte/transition';
 	import TextInput from '$lib/components/TextInput.svelte';
-	import NumberInput from '$lib/components/NumberInput.svelte';
-	import EditorJs from '$lib/components/EditorJS.svelte';
-	import Muuri from '$lib/components/Muuri.svelte';
+	import DashboardGrid from '$lib/components/DashboardGrid.svelte';
+	import { session } from '$app/stores';
+	import { createFlash } from '$lib/Flash';
+
+	$: console.log($session.hasSeenNewUserDialog);
 </script>
 
-<Muuri
-	items={[
-		{ id: '1', componentName: 'TextInput', props: {value: 4}, classes: "w-1/3" },
-		{ id: '2', componentName: 'TextInput', props: {value: 4}, classes: "w-1/3" },
-		{ id: '3', componentName: 'TextInput', props: {value: 4}, classes: "w-1/3" },
-		{ id: '4', componentName: 'TextInput', props: {value: 4}, classes: "w-1/3" },
-		{ id: '5', componentName: 'TextInput', props: {value: 4}, classes: "w-1/3" }
-	]}
+<DashboardGrid
+	items={$session.user.dashboardWidgets}
+	on:change={async (items) => {
+		console.log('UPDATING DASHBOARD WIDGETS', items);
+
+		$session.user.dashboardWidgets = items.detail;
+
+		const res = await fetch('/api/updateProfile', {
+			method: 'POST',
+			body: JSON.stringify({
+				dashboardWidgets: items.detail
+			})
+		});
+
+		if (res.status !== 200) {
+			$session.flash = [
+				...$session.flash,
+				createFlash({
+					message: 'Failed to update dashboard widgets',
+					type: 'error'
+				})
+			];
+			return;
+		}
+
+		$session.flash = [
+			...$session.flash,
+			createFlash({
+				message: 'Dashboard widgets updated',
+				type: 'success'
+			})
+		];
+	}}
 	registry={{ TextInput }}
 />

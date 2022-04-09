@@ -20,6 +20,7 @@ model User {
   // Biography stores EditorJS JSON
   biography         Json?
   profilePictureUrl String?
+  dashboardWidgets  Json?
 
   email          String       @unique
   role           UserRole     @default(VIEWER)

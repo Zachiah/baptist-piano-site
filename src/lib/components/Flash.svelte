@@ -7,6 +7,11 @@
 
 	onMount(() => {
 		const interval = setInterval(() => {
+			if (!$session.flash.length) {
+				return;
+			}
+			if ($session.flash.every((item) => showFlash(item))) return;
+			
 			$session.flash = $session.flash.filter((f, i) => (i === 0 ? showFlash(f) : f));
 		}, 1000);
 

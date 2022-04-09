@@ -26,8 +26,8 @@
 	let errorMessage = '';
 
 	const schema = Joi.object({
-		firstName: Joi.string().optional(),
-		lastName: Joi.string().optional(),
+		firstName: Joi.string().optional().allow(''),
+		lastName: Joi.string().optional().allow(''),
 		gender: Joi.string().only().allow('male', 'female').optional(),
 		biography: Joi.any().optional(),
 		age: Joi.number().integer().min(1).max(150)
@@ -55,6 +55,7 @@
 
 			if (error) {
 				errorMessage = error.message;
+				return;
 			}
 
 			const res = await fetch('/api/updateProfile', {
