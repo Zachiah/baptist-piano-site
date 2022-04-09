@@ -18,7 +18,7 @@
 	{@const flashColorClass =
 		flash.type === 'error' ? 'bg-red-500' : flash.type === 'info' ? 'bg-blue-500' : 'bg-green-500'}
 	<div
-		class="p-2 flex block absolute top-6 right-6 w-prose {flashColorClass}"
+		class="p-2 flex block fixed top-6 right-6 w-prose z-20 {flashColorClass}"
 		transition:slide
 		on:click={() => ($session.flash = $session.flash.filter((f) => f.id !== flash.id))}
 	>

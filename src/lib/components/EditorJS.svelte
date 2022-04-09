@@ -12,6 +12,9 @@
 		const Image = (await import('@editorjs/image')).default;
 		const EditorJsHyperlink = (await import('editorjs-hyperlink')).default;
 
+		if (!wrapperEl) {
+			return;
+		}
 		const editor = new EditorJS({
 			holder: wrapperEl,
 			tools: {
@@ -47,8 +50,6 @@
 									method: 'POST',
 									body: JSON.stringify({ url })
 								});
-
-								
 							}
 						}
 					}
@@ -61,7 +62,8 @@
 
 				value = res;
 			},
-			data: value
+			data: value,
+			minHeight: 0
 		});
 	});
 </script>

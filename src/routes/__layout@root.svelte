@@ -8,7 +8,6 @@
 
 <script lang="ts">
 	import { session } from '$app/stores';
-	import Flash from '$lib/components/Flash.svelte';
 	import { createFlash } from '$lib/Flash';
 </script>
 
@@ -39,13 +38,12 @@
 					localStorage.clear();
 				}}>Logout</NavLink
 			>
+			<NavLink href="/edit-profile">Edit Profile</NavLink>
 		{:else}
 			<NavLink href="/auth/login">Login</NavLink>
 		{/if}
 	</ul>
 </nav>
-
-<Flash />
 
 <div class="">
 	<slot />

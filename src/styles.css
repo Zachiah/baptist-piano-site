@@ -1,0 +1,4 @@
+.muuri-item-dragging {
+    @apply opacity-40 z-30;
+}
+
