@@ -41,6 +41,14 @@
 								console.log(json);
 
 								return json;
+							},
+							async uploadByUrl(url) {
+								const res = await fetch('/api/images/fetch', {
+									method: 'POST',
+									body: JSON.stringify({ url })
+								});
+
+								
 							}
 						}
 					}
