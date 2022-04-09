@@ -6,7 +6,7 @@ import { Gender } from '@prisma/client';
 import Joi from 'joi';
 
 const schema = Joi.object({
-	firstName: Joi.string().optional(),
+	firstName: Joi.string().optional().allow(''),
 	lastName: Joi.string().optional().allow(''),
 	gender: Joi.string().only().allow('male', 'female').optional(),
 	biography: Joi.any().optional(),

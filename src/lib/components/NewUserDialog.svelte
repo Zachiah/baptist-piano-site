@@ -24,16 +24,16 @@
 		$session.hasSeenNewUserDialog = true;
 	});
 
-	let firstName = $session.user.firstName ?? '';
-	let lastName = $session.user.lastName ?? '';
+	let firstName = $session.user?.firstName ?? '';
+	let lastName = $session.user?.lastName ?? '';
 	let gender: 'male' | 'female' =
-		$session.user.gender === Gender.MALE
+		$session.user?.gender === Gender.MALE
 			? 'male'
-			: $session.user.gender === Gender.FEMALE
+			: $session.user?.gender === Gender.FEMALE
 			? 'female'
 			: undefined;
-	let bio: Prisma.JsonValue = $session.user.biography ?? undefined;
-	let age: number = $session.user.age ?? undefined;
+	let bio: Prisma.JsonValue = $session.user?.biography ?? undefined;
+	let age: number = $session.user?.age ?? undefined;
 
 	let errorMessage = '';
 
@@ -49,7 +49,7 @@
 {#if newUserDialogOpen}
 	<div
 		transition:fade
-		class="fixed h-screen w-screen bg-gray-200 bg-opacity-20 top-0 left-0 backdrop-filter backdrop-blur-sm p-2 flex items-center justify-center"
+		class="fixed h-screen w-screen bg-gray-200 bg-opacity-20 top-0 left-0 backdrop-filter backdrop-blur-sm p-2 flex items-center justify-center z-50"
 		on:click={(e) => {
 			// if (e.target === e.currentTarget) {
 			// 	newUserDialogOpen = false;
