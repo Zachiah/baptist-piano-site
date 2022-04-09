@@ -1,5 +1,4 @@
 import generateEmailToken from '$lib/generateEmailToken';
-import getRequestJson from '$lib/getRequestJson';
 import prismaInstance from '$lib/prismaInstance';
 import Joi from 'joi';
 import dayjs from 'dayjs';

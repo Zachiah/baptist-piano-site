@@ -15,6 +15,7 @@
 	import Recaptcha from '$lib/components/Recaptcha.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import { createFlash } from '$lib/Flash';
+	import ArrowLeft from 'svelte-icons/md/MdArrowBack.svelte';
 
 	const schema = Joi.object({
 		email: Joi.string()
@@ -40,6 +41,8 @@
 <div
 	class="h-screen w-screen bg-gradient-to-r from-purple-600 to-blue-600 flex flex-col items-center justify-center"
 >
+	<Button wrapperClass="absolute top-4 left-4" color="neutral" icon={ArrowLeft} href={'/'} />
+
 	<header class="max-w-lg mx-auto">
 		<a href="/">
 			<h1 class="text-4xl font-bold text-white text-center">Baptist Piano</h1>
