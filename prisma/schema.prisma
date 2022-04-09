@@ -13,21 +13,20 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
 
-  firstName            String?
-  lastName             String?
-  gender               Gender?
-  allowPrivateMessages Boolean?
-  age                  Int?
+  firstName String?
+  lastName  String?
+  gender    Gender?
+  age       Int?
   // Biography stores EditorJS JSON
-  biography            Json?
+  biography Json?
 
   email          String       @unique
   role           UserRole     @default(VIEWER)
   numberOfLogins Int          @default(0)
   tokens         Token[]
   musicSkills    MusicSkill[]
-  followers      User[] @relation("UserFollows", references: [id])
-  following      User[] @relation("UserFollows", references: [id])
+  followers      User[]       @relation("UserFollows", references: [id])
+  following      User[]       @relation("UserFollows", references: [id])
 }
 
 model Token {
