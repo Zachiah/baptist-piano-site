@@ -10,3 +10,8 @@ export const SERVER_RECAPTCHA_API_KEY = loadEnvOrExit(
 	process.env,
 	'SERVER_RECAPTCHA_API_KEY'
 ) as string;
+export const AZURE_STORAGE_CONNECTION_STRING = loadEnvOrExit(
+	process.env,
+	'AZURE_STORAGE_CONNECTION_STRING'
+) as string;
+export const CONTAINER_NAME = loadEnvOrExit(process.env, 'CONTAINER_NAME') as string;
