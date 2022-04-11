@@ -9,8 +9,17 @@ export const post = composeApiMiddleware(
 )(async (event) => {
 	const formData = await event.request.formData();
 
-	const url = await uploadImage(formData.get('image'));
+	const { value: url, error } = await uploadImage(formData.get('image'));
 
+	if (error) {
+		return {
+			status: 400,
+			body: {
+				msg: error
+			}
+		};
+	}
+	
 	return {
 		status: 200,
 		body: {

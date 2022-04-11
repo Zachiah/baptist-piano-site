@@ -5,4 +5,7 @@
 	export let label: string;
 </script>
 
-<EditorJs bind:value />
+<div class="my-4">
+	<p>{label}</p>
+	<EditorJs bind:value />
+</div>

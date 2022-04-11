@@ -68,4 +68,4 @@
 	});
 </script>
 
-<div bind:this={wrapperEl} class="bg-white p-2 rounded-sm" />
+<div bind:this={wrapperEl} class="bg-white p-2 rounded-sm border border-gray-200 my-2 bg-gray-100 focus-within:bg-white" />

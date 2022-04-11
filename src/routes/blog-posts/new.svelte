@@ -10,21 +10,31 @@
 
 <script lang="ts">
 	import ContentField from '$lib/components/fields/ContentField.svelte';
-	import EditorJs from '$lib/components/EditorJS.svelte';
 	import TextInput from '$lib/components/fields/TextField.svelte';
 	import FileUploadField from '$lib/components/fields/FileUploadField.svelte';
+	import Button from '$lib/components/Button.svelte';
+import Joi from 'joi';
 
 	let title: string = '';
 	let content: any = null;
 	let coverImageUrl: string = '';
 
 	$: console.log(coverImageUrl);
-	let published: boolean = false;
+	let published: boolean = true;
+
+	const schema = Joi.object({
+		title: Joi.string().required(),
+		content: Joi.object().required(),
+		coverImageUrl: Joi.string().uri().optional().allow(''),
+		published: Joi.boolean().required()
+	})
 </script>
 
-<form>
+<form class="p-4 flex flex-col">
 	<TextInput bind:value={title} label="Title" />
 	<ContentField bind:value={content} label="Content" />
 	<FileUploadField bind:value={coverImageUrl} label="Cover Image" />
-	<img src={coverImageUrl} />
+	<img class="my-4" src={coverImageUrl} />
+
+	<Button type="submit">Submit</Button>
 </form>

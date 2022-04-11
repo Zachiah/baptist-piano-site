@@ -3,7 +3,7 @@
 	export let label: string;
 </script>
 
-<label class="mb-6 pt-3 rounded bg-gray-200">
+<label class="mb-6 pt-3 rounded bg-gray-200 block">
 	<p class="block text-gray-700 text-sm font-bold mb-2 ml-3">{label}</p>
 	<input
 		bind:value

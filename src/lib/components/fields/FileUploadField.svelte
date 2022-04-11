@@ -7,47 +7,47 @@
 	export let value: string;
 	export let label: string;
 
-	const onFileSelected = (e) => {
-		let image = e.target.files[0];
-		let reader = new FileReader();
-		reader.readAsDataURL(image);
-		reader.onload = async (e) => {
-			// e.target.result;
+	const onFileSelected = async (e) => {
+		let image = e.target.files[0] as File;
+		let fileType = e.target.files[0].type as string;
+		console.log(fileType);
 
-			let formData = new FormData();
-			formData.append('image', new Blob([e.target.result]));
-			const res = await fetch('/api/images/upload', {
-				method: 'POST',
-				body: formData
-			});
+		let formData = new FormData();
+		formData.append('image', image);
+		const res = await fetch('/api/images/upload', {
+			method: 'POST',
+			body: formData
+		});
 
-			if (res.status !== 200) {
-				$session.flash = [
-					...$session.flash,
-					createFlash({
-						type: 'error',
-						message: 'There was an error uploading the image.'
-					})
-				];
-				return;
-			}
+		const json = await res.json();
 
-			const json = await res.json();
-
-			value = json.file.url
-
+		if (res.status !== 200) {
+			console.log(json);
 			$session.flash = [
 				...$session.flash,
 				createFlash({
-					type: 'success',
-					message: 'Image uploaded successfully.'
+					type: 'error',
+					message:
+						'There was an error uploading the image: ' +
+						(json.message ?? json.msg ?? json.error ?? 'Unknown error')
 				})
 			];
-		};
+			return;
+		}
+
+		value = json.file.url;
+
+		$session.flash = [
+			...$session.flash,
+			createFlash({
+				type: 'success',
+				message: 'Image uploaded successfully.'
+			})
+		];
 	};
 </script>
 
-<label id="app" class="flex flex-col items-center p-4 border w-40">
+<label id="app" class="flex flex-col items-center p-4 border">
 	<div class="w-8 h-8">
 		<FileUploadIcon />
 	</div>
