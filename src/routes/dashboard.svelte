@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-	import TextInput from '$lib/components/TextInput.svelte';
+	import TextInput from '$lib/components/fields/TextField.svelte';
 	import DashboardGrid from '$lib/components/DashboardGrid.svelte';
 	import { session } from '$app/stores';
 	import { createFlash } from '$lib/Flash';

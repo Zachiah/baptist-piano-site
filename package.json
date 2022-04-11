@@ -51,6 +51,7 @@
 		"prisma": "^3.12.0",
 		"svelte": "^3.47.0",
 		"svelte-check": "^2.5.0",
+		"svelte-file-dropzone": "^1.0.0-dev.1",
 		"svelte-language-server": "^0.14.24",
 		"svelte-preprocess": "^4.10.1",
 		"svelte-recaptcha-v2": "^0.0.2",

@@ -3,7 +3,7 @@
 
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import TextInput from './TextInput.svelte';
+	import TextInput from './fields/TextField.svelte';
 	import EditorJS from './EditorJS.svelte';
 	import NumberInput from './NumberInput.svelte';
 	import Button from './Button.svelte';

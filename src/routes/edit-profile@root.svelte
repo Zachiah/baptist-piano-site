@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { session } from '$app/stores';
-
-	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
-	import TextInput from '$lib/components/TextInput.svelte';
+	import TextInput from '$lib/components/fields/TextField.svelte';
 	import EditorJS from '$lib/components/EditorJS.svelte';
 	import NumberInput from '$lib/components/NumberInput.svelte';
 	import Joi from 'joi';

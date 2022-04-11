@@ -13,7 +13,7 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
 	import Recaptcha from '$lib/components/Recaptcha.svelte';
-	import TextInput from '$lib/components/TextInput.svelte';
+	import TextInput from '$lib/components/fields/TextField.svelte';
 	import { createFlash } from '$lib/Flash';
 	import ArrowLeft from 'svelte-icons/md/MdArrowBack.svelte';
 
