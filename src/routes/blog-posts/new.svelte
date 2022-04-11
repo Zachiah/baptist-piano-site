@@ -33,7 +33,7 @@
 </script>
 
 <form
-	class="p-4 flex flex-col"
+	class="p-4"
 	on:submit|preventDefault={() => {
 		const { value, error } = schema.validate({
 			title,
@@ -53,10 +53,19 @@
 		}
 	}}
 >
-	<TextInput bind:value={title} label="Title" />
-	<ContentField bind:value={content} label="Content" />
-	<FileUploadField bind:value={coverImageUrl} label="Cover Image" />
-	<img class="my-4" src={coverImageUrl} />
+	<h2 class="font-sans p-2 text-xl border-b border-b-gray-200 mb-4">Create New Blog Post</h2>
+	<div class="flex flex-col md:flex-row md:gap-4">
+		<div class="w-full md:w-60">
+			<TextInput bind:value={title} label="Title" />
+			<FileUploadField bind:value={coverImageUrl} label="Cover Image" />
+			{#if coverImageUrl}
+				<img class="my-4 w-full" src={coverImageUrl} alt="Cover Image" />
+			{/if}
+		</div>
 
+		<div class="md:flex-grow">
+			<ContentField bind:value={content} label="Content" />
+		</div>
+	</div>
 	<Button type="submit">Submit</Button>
 </form>

@@ -47,7 +47,7 @@
 	};
 </script>
 
-<label id="app" class="flex flex-col items-center p-4 border">
+<label id="app" class="flex flex-col items-center p-4 border my-4">
 	<div class="w-8 h-8">
 		<FileUploadIcon />
 	</div>

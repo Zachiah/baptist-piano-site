@@ -5,7 +5,9 @@
 	export let label: string;
 </script>
 
-<div class="my-4">
+<div class="my-4 first:mt-0 relative">
 	<p>{label}</p>
-	<EditorJs bind:value />
+	<div>
+		<EditorJs bind:value />
+	</div>
 </div>

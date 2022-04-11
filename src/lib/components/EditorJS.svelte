@@ -63,7 +63,7 @@
 				value = res;
 			},
 			data: value,
-			minHeight: 0
+			minHeight: 60
 		});
 	});
 </script>
