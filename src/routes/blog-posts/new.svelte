@@ -13,7 +13,9 @@
 	import TextInput from '$lib/components/fields/TextField.svelte';
 	import FileUploadField from '$lib/components/fields/FileUploadField.svelte';
 	import Button from '$lib/components/Button.svelte';
-import Joi from 'joi';
+	import Joi from 'joi';
+	import { session } from '$app/stores';
+	import { createFlash } from '$lib/Flash';
 
 	let title: string = '';
 	let content: any = null;
@@ -27,10 +29,30 @@ import Joi from 'joi';
 		content: Joi.object().required(),
 		coverImageUrl: Joi.string().uri().optional().allow(''),
 		published: Joi.boolean().required()
-	})
+	});
 </script>
 
-<form class="p-4 flex flex-col">
+<form
+	class="p-4 flex flex-col"
+	on:submit|preventDefault={() => {
+		const { value, error } = schema.validate({
+			title,
+			content,
+			coverImageUrl,
+			published
+		});
+
+		if (error) {
+			$session.flash = [
+				...$session.flash,
+				createFlash({
+					type: 'error',
+					message: error.message
+				})
+			];
+		}
+	}}
+>
 	<TextInput bind:value={title} label="Title" />
 	<ContentField bind:value={content} label="Content" />
 	<FileUploadField bind:value={coverImageUrl} label="Cover Image" />
