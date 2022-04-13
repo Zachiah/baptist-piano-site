@@ -2,3 +2,10 @@
     @apply opacity-40 z-30;
 }
 
+.svelte-table {border-collapse: collapse}
+.svelte-table tbody tr:nth-child(odd) {
+    @apply bg-gray-200;
+}
+.svelte-table td, .svelte-table th {
+    @apply p-2 px-8 text-left border-l border-gray-400
+}

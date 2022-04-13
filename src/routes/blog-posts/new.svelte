@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import withClientUser from '$lib/middleware/client/withClientUser';
 
-	export const load = withClientUser({ required: true })(async (event) => {
+	export const get = withClientUser({ required: true })(async (event) => {
 		return {
 			status: 200
 		};
@@ -16,6 +16,7 @@
 	import Joi from 'joi';
 	import { session } from '$app/stores';
 	import { createFlash } from '$lib/Flash';
+	import { goto } from '$app/navigation';
 
 	let title: string = '';
 	let content: any = null;
@@ -34,7 +35,7 @@
 
 <form
 	class="p-4"
-	on:submit|preventDefault={() => {
+	on:submit|preventDefault={async () => {
 		const { value, error } = schema.validate({
 			title,
 			content,
@@ -50,6 +51,40 @@
 					message: error.message
 				})
 			];
+			return;
+		}
+
+		const res = await fetch('/api/blog-posts/create', {
+			method: 'POST',
+			body: JSON.stringify({
+				title: value.title,
+				content: value.content,
+				coverImageUrl: value.coverImageUrl,
+				published: value.published
+			})
+		});
+
+		const resJSON = await res.json();
+
+		if (res.status !== 200) {
+			$session.flash = [
+				...$session.flash,
+				createFlash({
+					type: 'error',
+					message:
+						resJSON.message ?? resJSON.error ?? resJSON.message ?? 'An unknown error occurred'
+				})
+			];
+		} else {
+			$session.flash = [
+				...$session.flash,
+				createFlash({
+					type: 'success',
+					message: `Blog post created successfully`
+				})
+			];
+
+			goto('/blog-posts');
 		}
 	}}
 >
