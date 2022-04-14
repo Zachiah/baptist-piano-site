@@ -9,15 +9,11 @@ import { composeApiMiddleware } from '$lib/middleware/utils';
 import withNoApiUser from '$lib/middleware/api/withNoApiUser';
 import withApiSchema from '$lib/middleware/api/withApiSchema';
 import isRecaptchaKeyValid from '$lib/isRecaptchaKeyValid';
-
-const schema = Joi.object({
-	email: Joi.string().email().required(),
-	recaptchaKey: Joi.string().required()
-});
+import { loginSchema } from '$lib/schemas/User';
 
 export const post = composeApiMiddleware(
 	withNoApiUser,
-	withApiSchema({ schema })
+	withApiSchema({ schema: loginSchema })
 )(async (event) => {
 	const recaptchaKey = event.middleware.schemaValue.recaptchaKey;
 
@@ -32,9 +28,30 @@ export const post = composeApiMiddleware(
 		};
 	}
 
-	const email = event.middleware.schemaValue.email;
+	const { email, username } = event.middleware.schemaValue;
 	const emailToken = generateEmailToken();
 	const tokenExpiration = dayjs().add(EMAIL_TOKEN_EXPIRATION_MINUTES, 'minute');
+
+	const theEmailUser = await prismaInstance.user.findUnique({
+		where: {
+			email
+		}
+	});
+
+	const theUsernameUser = await prismaInstance.user.findUnique({
+		where: {
+			username
+		}
+	});
+
+	if (theEmailUser?.id !== theUsernameUser?.id) {
+		return {
+			status: 400,
+			body: {
+				error: 'Email and username are not associated with the same user'
+			}
+		};
+	}
 
 	const createdToken = await prismaInstance.token.create({
 		data: {
@@ -44,10 +61,11 @@ export const post = composeApiMiddleware(
 			user: {
 				connectOrCreate: {
 					create: {
-						email
+						email,
+						username
 					},
 					where: {
-						email
+						email: email
 					}
 				}
 			}

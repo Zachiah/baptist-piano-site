@@ -1,8 +1,9 @@
 <script lang="ts" context="module">
 	import withClientUser from '$lib/middleware/client/withClientUser';
-	import type { BlogPost } from '@prisma/client';
+	import type { BlogPost, User } from '@prisma/client';
 	import SvelteTable from 'svelte-table';
 	import dayjs from 'dayjs';
+import BlogPostLink from '$lib/components/BlogPostLink.svelte';
 
 	export const load = withClientUser({ required: true })(async (event) => {
 		const res = await event.fetch('/api/blog-posts', {
@@ -21,7 +22,8 @@
 		return {
 			status: 200,
 			props: {
-				blogPosts: json.blogPosts
+				blogPosts: json.blogPosts,
+				user: event.middleware.user
 			}
 		};
 	});
@@ -29,6 +31,7 @@
 
 <script lang="ts">
 	export let blogPosts: BlogPost[];
+	export let user: User
 </script>
 
 <SvelteTable
@@ -38,7 +41,13 @@
 		{
 			key: 'title',
 			value: (v) => v.title,
-			title: 'Title'
+			title: 'Title',
+			renderComponent: {
+				component: BlogPostLink,
+				props: {
+					user: user,
+				}
+			}
 		},
 		{
 			key: 'createdAt',

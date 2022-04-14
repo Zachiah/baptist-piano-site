@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import withClientUser from '$lib/middleware/client/withClientUser';
 
-	export const get = withClientUser({ required: true })(async (event) => {
+	export const load = withClientUser({ required: true })(async (event) => {
 		return {
 			status: 200
 		};
@@ -21,6 +21,7 @@
 	let title: string = '';
 	let content: any = null;
 	let coverImageUrl: string = '';
+	let slug: string = '';
 
 	$: console.log(coverImageUrl);
 	let published: boolean = true;
@@ -29,7 +30,8 @@
 		title: Joi.string().required(),
 		content: Joi.object().required(),
 		coverImageUrl: Joi.string().uri().optional().allow(''),
-		published: Joi.boolean().required()
+		published: Joi.boolean().required(),
+		slug: Joi.string().required()
 	});
 </script>
 
@@ -40,7 +42,8 @@
 			title,
 			content,
 			coverImageUrl,
-			published
+			published,
+			slug
 		});
 
 		if (error) {
@@ -60,7 +63,8 @@
 				title: value.title,
 				content: value.content,
 				coverImageUrl: value.coverImageUrl,
-				published: value.published
+				published: value.published,
+				slug: value.slug
 			})
 		});
 
@@ -92,9 +96,10 @@
 	<div class="flex flex-col md:flex-row md:gap-4">
 		<div class="w-full md:w-60">
 			<TextInput bind:value={title} label="Title" />
+			<TextInput bind:value={slug} label="Slug" />
 			<FileUploadField bind:value={coverImageUrl} label="Cover Image" />
 			{#if coverImageUrl}
-				<img class="my-4 w-full" src={coverImageUrl} alt="Cover Image" />
+				<img class="my-4 w-full" src={coverImageUrl} alt="Cover" />
 			{/if}
 		</div>
 

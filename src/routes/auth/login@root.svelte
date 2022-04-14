@@ -16,26 +16,14 @@
 	import TextInput from '$lib/components/fields/TextField.svelte';
 	import { createFlash } from '$lib/Flash';
 	import ArrowLeft from 'svelte-icons/md/MdArrowBack.svelte';
-
-	const schema = Joi.object({
-		email: Joi.string()
-			.email({ tlds: { allow: false } })
-			.required(),
-		recaptchaToken: Joi.string().required()
-	});
-
-	const emailTokenSchema = Joi.object({
-		emailToken: Joi.string()
-			.length(EMAIL_TOKEN_LENGTH)
-			.required()
-			.regex(/^[0-9]+$/)
-	});
+	import { authenticateSchema, loginSchema } from '$lib/schemas/User';
 
 	let email = '';
 	let emailToken = '';
+	let username = '';
 	let error = '';
 	let emailSent = false;
-	let recaptchaToken = '';
+	let recaptchaKey = '';
 </script>
 
 <div
@@ -58,7 +46,11 @@
 			class="flex flex-col"
 			on:submit|preventDefault={async () => {
 				if (emailSent) {
-					const { error: tokenSchemaError, value } = emailTokenSchema.validate({ emailToken });
+					const { error: tokenSchemaError, value } = authenticateSchema.validate({
+						emailToken,
+						email,
+						username
+					});
 					if (tokenSchemaError) {
 						error = tokenSchemaError.message;
 						return;
@@ -71,7 +63,8 @@
 						},
 						body: JSON.stringify({
 							email,
-							emailToken
+							emailToken,
+							username
 						})
 					});
 
@@ -90,7 +83,11 @@
 						error = 'Invalid Token';
 					}
 				} else {
-					const { error: schemaError, value } = schema.validate({ email, recaptchaToken });
+					const { error: schemaError, value } = loginSchema.validate({
+						email,
+						recaptchaKey,
+						username
+					});
 
 					if (schemaError) {
 						error = schemaError.message;
@@ -106,7 +103,8 @@
 						},
 						body: JSON.stringify({
 							email,
-							recaptchaKey: recaptchaToken
+							username,
+							recaptchaKey: recaptchaKey
 						})
 					});
 
@@ -135,7 +133,7 @@
 					on:click={() => {
 						emailSent = false;
 						emailToken = '';
-						recaptchaToken = '';
+						recaptchaKey = '';
 					}}
 				>
 					Change Email
@@ -146,11 +144,12 @@
 				<Button type="submit">Log In</Button>
 			{:else}
 				<TextInput bind:value={email} label="Email" />
+				<TextInput bind:value={username} label="Username" />
 
 				<div class="mb-4 ml-auto">
 					<Recaptcha
 						on:success={(e) => {
-							recaptchaToken = e.detail.token;
+							recaptchaKey = e.detail.token;
 						}}
 					/>
 				</div>

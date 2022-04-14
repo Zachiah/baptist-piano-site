@@ -4,21 +4,16 @@ import withSchema from '$lib/middleware/api/withApiSchema';
 import withNoApiUser from '$lib/middleware/api/withNoApiUser';
 import { composeApiMiddleware } from '$lib/middleware/utils';
 import prismaInstance from '$lib/prismaInstance';
+import { authenticateSchema } from '$lib/schemas/User';
 import { AUTHENTICATION_TOKEN_EXPIRATION_HOURS } from '$lib/sensitiveConfig';
 import { prisma, TokenType } from '@prisma/client';
 import dayjs from 'dayjs';
-import Joi from 'joi';
-
-const schema = Joi.object({
-	email: Joi.string().email().required(),
-	emailToken: Joi.string().required()
-});
 
 export const post = composeApiMiddleware(
-	withSchema({ schema }),
+	withSchema({ schema: authenticateSchema }),
 	withNoApiUser
 )(async (event) => {
-	const { email, emailToken } = event.middleware.schemaValue;
+	const { email, emailToken, username } = event.middleware.schemaValue;
 
 	const fetchedEmailToken = await prismaInstance.token.findUnique({
 		where: {
@@ -47,7 +42,7 @@ export const post = composeApiMiddleware(
 		};
 	}
 
-	if (fetchedEmailToken.user.email !== email) {
+	if (fetchedEmailToken.user.email !== email || fetchedEmailToken.user.username !== username) {
 		return {
 			status: 400,
 			body: {
@@ -91,7 +86,7 @@ export const post = composeApiMiddleware(
 	const user = await prismaInstance.user.findUnique({
 		where: {
 			email
-		},
+		}
 	});
 
 	const authToken = generateAuthToken(createdToken.id);

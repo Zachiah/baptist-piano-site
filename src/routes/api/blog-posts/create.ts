@@ -11,17 +11,24 @@ export const post = composeApiMiddleware(
 			title: Joi.string().required(),
 			content: Joi.object().required(),
 			coverImageUrl: Joi.string().uri().optional().allow(''),
-			published: Joi.boolean().required()
+			published: Joi.boolean().required(),
+			slug: Joi.string().required()
 		})
 	})
 )(async (event) => {
+	console.log(event.middleware.schemaValue.slug)
 	await prismaInstance.blogPost.create({
 		data: {
-			authorId: event.middleware.user.id,
+			author: {
+				connect: {
+					id: event.middleware.user.id
+				}
+			},
 			title: event.middleware.schemaValue.title,
 			content: event.middleware.schemaValue.content,
 			coverImageUrl: event.middleware.schemaValue.coverImageUrl,
-			published: event.middleware.schemaValue.published
+			published: event.middleware.schemaValue.published,
+			slug: event.middleware.schemaValue.slug
 		}
 	});
 
