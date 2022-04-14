@@ -12,8 +12,9 @@
 		flex
 		flex-col
 		items-center
-		${matches ? 'text-white' : 'text-gray-200'}
-		${icon ? 'text-xs' : 'text-sm'}
+		duration-200
+		${matches ? 'text-white' : 'text-gray-400'}
+		${icon ? 'text-xs' : matches ? 'text-md' : 'text-sm'}
 	`;
 </script>
 
