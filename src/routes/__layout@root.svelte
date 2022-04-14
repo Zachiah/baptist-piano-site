@@ -3,48 +3,101 @@
 	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 	import withClientUser from '$lib/middleware/client/withClientUser';
 
-	export const load = withClientUser({ required: false })(sendClient200StatusCodeCallback);
+	export const load = withClientUser({ required: false })(async (event) => {
+		return {
+			status: 200,
+			props: {
+				url: event.url
+			}
+		};
+	});
 </script>
 
 <script lang="ts">
 	import { session } from '$app/stores';
 	import { createFlash } from '$lib/Flash';
+	import DashboardIcon from 'svelte-icons/md/MdDashboard.svelte';
+	import BlogIcon from 'svelte-icons/md/MdBook.svelte';
+	import ActivityIcon from 'svelte-icons/md/MdAccessTime.svelte';
+	import ExpandIcon from 'svelte-icons/md/MdMenu.svelte';
+
+	export let url: URL;
+
+	let expanded = true;
+
+	$: console.log(url.pathname);
+	$: sidebar = $session.user && expanded;
 </script>
 
-<nav class="">
-	<ul class="flex">
-		<NavLink href="/">Home</NavLink>
-		<NavLink href="/about">About</NavLink>
-		<NavLink href="/contact">Contact</NavLink>
+<div class="h-screen flex from-purple-600 to-blue-600 bg-gradient-to-r">
+	{#if sidebar}
+		<aside class="bg-slate-800 w-20 shadow-md">
+			<NavLink href="/dashboard" path={url.pathname} icon>
+				<DashboardIcon />
+				Dashboard
+			</NavLink>
 
-		<div class="flex-grow" />
+			<NavLink href="/blog-posts" path={url.pathname} icon>
+				<BlogIcon />
+				Blog Posts
+			</NavLink>
 
-		{#if $session.user}
-			<NavLink href="/dashboard">Dashboard</NavLink>
-			<NavLink
-				on:click={async () => {
-					const request = await fetch('/api/auth/logout', {
-						method: 'POST'
-					});
-					$session.user = null;
-					$session.flash = [
-						...$session.flash,
-						createFlash({
-							type: 'info',
-							message: 'You have successfully logged out.'
-						})
-					];
-					// clear localStorage
-					localStorage.clear();
-				}}>Logout</NavLink
-			>
-			<NavLink href="/edit-profile">Edit Profile</NavLink>
-		{:else}
-			<NavLink href="/auth/login">Login</NavLink>
-		{/if}
-	</ul>
-</nav>
+			<NavLink href="/activity" path={url.pathname} icon>
+				<ActivityIcon />
+				Activity
+			</NavLink>
+		</aside>
+	{/if}
 
-<div class="">
-	<slot />
+	<div class="overflow-auto flex-grow flex flex-col duration-200" class:mx-8={sidebar}>
+		<nav class="bg-slate-800 shadow-md flex items-center duration-200" class:rounded-b-md={sidebar}>
+			{#if $session.user}
+				<NavLink
+					path={url.pathname}
+					on:click={() => {
+						expanded = !expanded;
+					}}
+					icon
+				>
+					<div class="w-6 mt-1">
+						<ExpandIcon />
+					</div>
+				</NavLink>
+			{/if}
+
+			<NavLink path={url.pathname} href="/" exact>Home</NavLink>
+			<NavLink path={url.pathname} href="/about">About</NavLink>
+			<NavLink path={url.pathname} href="/contact">Contact</NavLink>
+
+			<div class="flex-grow" />
+
+			{#if $session?.user}
+				<NavLink path={url.pathname} href="/dashboard">Dashboard</NavLink>
+				<NavLink
+					path={url.pathname}
+					on:click={async () => {
+						const request = await fetch('/api/auth/logout', {
+							method: 'POST'
+						});
+						$session.user = null;
+						$session.flash = [
+							...$session.flash,
+							createFlash({
+								type: 'info',
+								message: 'You have successfully logged out.'
+							})
+						];
+						// clear localStorage
+						localStorage.clear();
+					}}>Logout</NavLink
+				>
+				<NavLink path={url.pathname} href="/edit-profile">Edit Profile</NavLink>
+			{:else}
+				<NavLink path={url.pathname} href="/auth/login">Login</NavLink>
+			{/if}
+		</nav>
+		<div class="bg-white flex-grow shadow-md p-4 flex flex-col" class:my-8={sidebar} class:rounded-sm={sidebar}>
+			<slot />
+		</div>
+	</div>
 </div>

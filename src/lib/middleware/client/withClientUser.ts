@@ -16,6 +16,10 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 					session: {
 						...event.session,
 						user: null
+					},
+					middleware: {
+						...event.middleware,
+						user: null
 					}
 				};
 			}
@@ -23,6 +27,10 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 				...event,
 				session: {
 					...event.session,
+					user: null
+				},
+				middleware: {
+					...event.middleware,
 					user: null
 				}
 			});
@@ -50,6 +58,10 @@ const withClientUser: ConfigurableClientMiddleware<{ required: boolean }, { user
 					redirect: '/auth/login',
 					session: {
 						...event.session,
+						user: null
+					},
+					middleware: {
+						...event.middleware,
 						user: null
 					}
 				};
