@@ -79,7 +79,9 @@
 		}
 	}}
 >
-	<h1 class="text-2xl text-sans mb-4">Editing {$session.user.username} profile</h1>
+	<h1 class="text-2xl text-sans mb-4">
+		Editing <span class="bg-gray-200 text-xs p-2 rounded-full">{$session.user.username}</span>'s profile
+	</h1>
 
 	{#if errorMessage}
 		<p class="text-red-600 text-sm">{errorMessage}</p>

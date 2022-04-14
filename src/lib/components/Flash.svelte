@@ -23,11 +23,11 @@
 	{@const flashColorClass =
 		flash.type === 'error' ? 'bg-red-500' : flash.type === 'info' ? 'bg-blue-500' : 'bg-green-500'}
 	<div
-		class="p-2 flex block fixed top-6 right-6 w-prose z-20 {flashColorClass}"
+		class="p-2 flex block fixed bottom-6 right-6 w-max max-w-prose z-20 rounded-sm shadow-md {flashColorClass}"
 		transition:slide
 		on:click={() => ($session.flash = $session.flash.filter((f) => f.id !== flash.id))}
 	>
-		<p>{flash.message}</p>
+		<p class="mr-4">{flash.message}</p>
 
 		<div class="ml-auto w-6 h-6 text-black hover:text-gray-600 duration-400">
 			<MdClose />

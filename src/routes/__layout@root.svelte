@@ -20,6 +20,7 @@
 	import BlogIcon from 'svelte-icons/md/MdBook.svelte';
 	import ActivityIcon from 'svelte-icons/md/MdAccessTime.svelte';
 	import ExpandIcon from 'svelte-icons/md/MdMenu.svelte';
+	import ProfileIcon from 'svelte-icons/md/MdPerson.svelte';
 
 	export let url: URL;
 
@@ -46,11 +47,19 @@
 				<ActivityIcon />
 				Activity
 			</NavLink>
+
+			<NavLink href="/edit-profile" path={url.pathname} icon>
+				<ProfileIcon />
+				Edit Profile
+			</NavLink>
 		</aside>
 	{/if}
 
-	<div class="overflow-auto flex-grow flex flex-col duration-200" class:mx-8={sidebar}>
-		<nav class="bg-slate-800 shadow-md flex items-center duration-200" class:rounded-b-md={sidebar}>
+	<div class="overflow-auto flex-grow flex flex-col duration-200" class:px-8={sidebar}>
+		<nav
+			class="bg-slate-800 shadow-md flex items-center duration-200 sticky top-0"
+			class:rounded-b-md={sidebar}
+		>
 			{#if $session.user}
 				<NavLink
 					path={url.pathname}
@@ -72,7 +81,6 @@
 			<div class="flex-grow" />
 
 			{#if $session?.user}
-				<NavLink path={url.pathname} href="/dashboard">Dashboard</NavLink>
 				<NavLink
 					path={url.pathname}
 					on:click={async () => {
@@ -91,12 +99,15 @@
 						localStorage.clear();
 					}}>Logout</NavLink
 				>
-				<NavLink path={url.pathname} href="/edit-profile">Edit Profile</NavLink>
 			{:else}
 				<NavLink path={url.pathname} href="/auth/login">Login</NavLink>
 			{/if}
 		</nav>
-		<div class="bg-white flex-grow shadow-md p-4 flex flex-col" class:my-8={sidebar} class:rounded-sm={sidebar}>
+		<div
+			class="bg-white flex-grow shadow-md p-4 flex flex-col"
+			class:my-8={sidebar}
+			class:rounded-sm={sidebar}
+		>
 			<slot />
 		</div>
 	</div>
