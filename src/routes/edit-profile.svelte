@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+	export const load = withClientUser({ required: true })(sendClient200StatusCodeCallback);
+</script>
+
 <script lang="ts">
 	import { session } from '$app/stores';
 	import TextInput from '$lib/components/fields/TextField.svelte';
@@ -8,6 +12,8 @@
 	import { Gender, type Prisma } from '@prisma/client';
 	import Button from '$lib/components/Button.svelte';
 	import ArrowLeft from 'svelte-icons/md/MdArrowBack.svelte';
+	import withClientUser from '$lib/middleware/client/withClientUser';
+	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 
 	let firstName = $session.user?.firstName ?? '';
 	let lastName = $session.user?.lastName ?? '';
