@@ -3,6 +3,7 @@
 
 	let wrapperEl: HTMLDivElement = null!;
 	export let value: any;
+	export let readonly = false;
 
 	onMount(async () => {
 		const EditorJS = (await import('@editorjs/editorjs')).default;
@@ -17,6 +18,7 @@
 		}
 		const editor = new EditorJS({
 			holder: wrapperEl,
+			readOnly: readonly,
 			tools: {
 				header: Header,
 				list: List,
@@ -30,8 +32,6 @@
 						},
 						uploader: {
 							async uploadByFile(file) {
-								console.log(file);
-
 								let formData = new FormData();
 								formData.append('image', file);
 
@@ -68,4 +68,12 @@
 	});
 </script>
 
-<div bind:this={wrapperEl} class="bg-white p-2 rounded-sm border border-gray-200 my-2 bg-gray-100 focus-within:bg-white" />
+<div
+	bind:this={wrapperEl}
+	class:bg-white={readonly}
+	class:bg-gray-200={!readonly}
+	class:border={!readonly}
+	class:p-2={!readonly}
+	class:my-2={!readonly}
+	class="rounded-sm focus-within:bg-white"
+/>

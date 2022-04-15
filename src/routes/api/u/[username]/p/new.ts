@@ -16,12 +16,35 @@ export const post = composeApiMiddleware(
 		})
 	})
 )(async (event) => {
-	console.log(event.middleware.schemaValue.slug)
+	if (event.middleware.user.username !== event.params.username) {
+		return {
+			statusCode: 403,
+			body: {
+				message: 'You are not authorized to create a blog post for this user.'
+			}
+		};
+	}
+
+	const theUser = await prismaInstance.user.findUnique({
+		where: {
+			username: event.params.username
+		}
+	});
+
+	if (!theUser) {
+		return {
+			statusCode: 404,
+			body: {
+				message: 'User not found.'
+			}
+		};
+	}
+
 	await prismaInstance.blogPost.create({
 		data: {
 			author: {
 				connect: {
-					id: event.middleware.user.id
+					id: theUser.id
 				}
 			},
 			title: event.middleware.schemaValue.title,

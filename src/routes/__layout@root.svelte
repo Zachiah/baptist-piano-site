@@ -2,6 +2,7 @@
 	import NavLink from '$lib/components/NavLink.svelte';
 	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 	import withClientUser from '$lib/middleware/client/withClientUser';
+	import 'virtual:windi.css';
 
 	export const load = withClientUser({ required: false })(async (event) => {
 		return {
@@ -25,8 +26,6 @@
 	export let url: URL;
 
 	let expanded = true;
-
-	$: console.log(url.pathname);
 	$: sidebar = $session.user && expanded;
 </script>
 
@@ -38,7 +37,7 @@
 				Dashboard
 			</NavLink>
 
-			<NavLink href="/blog-posts" path={url.pathname} icon>
+			<NavLink href="/u/{$session.user.username}/p/dashboard" path={url.pathname} icon>
 				<BlogIcon />
 				Blog Posts
 			</NavLink>
@@ -77,6 +76,7 @@
 			<NavLink path={url.pathname} href="/" exact>Home</NavLink>
 			<NavLink path={url.pathname} href="/about">About</NavLink>
 			<NavLink path={url.pathname} href="/contact">Contact</NavLink>
+			<NavLink path={url.pathname} href="/blog-posts">Blog</NavLink>
 
 			<div class="flex-grow" />
 

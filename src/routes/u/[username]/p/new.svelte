@@ -2,8 +2,17 @@
 	import withClientUser from '$lib/middleware/client/withClientUser';
 
 	export const load = withClientUser({ required: true })(async (event) => {
+		if (event.params.username !== event.middleware.user.username) {
+			return {
+				status: 404
+			};
+		}
+
 		return {
-			status: 200
+			status: 200,
+			props: {
+				username: event.params.username
+			}
 		};
 	});
 </script>
@@ -18,12 +27,13 @@
 	import { createFlash } from '$lib/Flash';
 	import { goto } from '$app/navigation';
 
+	export let username: string;
+	export let logMessage;
+
 	let title: string = '';
 	let content: any = null;
 	let coverImageUrl: string = '';
 	let slug: string = '';
-
-	$: console.log(coverImageUrl);
 	let published: boolean = true;
 
 	const schema = Joi.object({
@@ -57,7 +67,7 @@
 			return;
 		}
 
-		const res = await fetch('/api/blog-posts/create', {
+		const res = await fetch(`/api/u/${username}/p/new`, {
 			method: 'POST',
 			body: JSON.stringify({
 				title: value.title,
@@ -88,7 +98,7 @@
 				})
 			];
 
-			goto('/blog-posts');
+			goto(`/u/${username}/p/${slug}`);
 		}
 	}}
 >

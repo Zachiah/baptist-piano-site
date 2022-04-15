@@ -42,11 +42,8 @@
 				.getGrid()
 				.getItems()
 				.map((i) => i.getElement().dataset.id);
-			console.log('updating');
-			console.log(ids)
 
 			items = ids.map((id) => items.find((i) => i.id === id));
-			console.log(items)
 			dispatch('change', items);
 		});
 	}

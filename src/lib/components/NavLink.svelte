@@ -8,12 +8,12 @@
 	$: classes = `
 		block
 		p-2
-		hover:text-gray-200
+		hover:text-gray-400
 		flex
 		flex-col
 		items-center
 		duration-200
-		${matches ? 'text-white' : 'text-gray-400'}
+		${matches ? 'text-gray-400' : 'text-white'}
 		${icon ? 'text-xs' : matches ? 'text-md' : 'text-sm'}
 	`;
 </script>

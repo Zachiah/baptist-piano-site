@@ -17,7 +17,6 @@ const uploadImage = async (image: any) => {
 	const blockBlobClient = containerClient.getBlockBlobClient(`image-${cuid()}`);
 	const arrayBuffer: ArrayBuffer = await image.arrayBuffer();
 	const uploadBlobResponse = await blockBlobClient.upload(arrayBuffer, arrayBuffer.byteLength);
-	console.log(blockBlobClient.url);
 
 	return {
 		value: blockBlobClient.url,

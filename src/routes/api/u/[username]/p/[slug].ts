@@ -15,8 +15,6 @@ export const get = async (event) => {
         }
     });
 
-    console.log(post)
-
 	if (!post || user?.id !== post.authorId) {
 		return {
 			status: 404,
@@ -29,7 +27,8 @@ export const get = async (event) => {
 	return {
 		status: 200,
 		body: {
-			blogPost: post
+			blogPost: post,
+			author: user
 		}
 	};
 };

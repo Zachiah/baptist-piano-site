@@ -14,6 +14,7 @@
 	import ArrowLeft from 'svelte-icons/md/MdArrowBack.svelte';
 	import withClientUser from '$lib/middleware/client/withClientUser';
 	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
+	import UsernameTag from '$lib/components/UsernameTag.svelte';
 
 	let firstName = $session.user?.firstName ?? '';
 	let lastName = $session.user?.lastName ?? '';
@@ -80,7 +81,7 @@
 	}}
 >
 	<h1 class="text-2xl text-sans mb-4">
-		Editing <span class="bg-gray-200 text-xs p-2 rounded-full">{$session.user.username}</span>'s profile
+		Editing <UsernameTag user={$session.user} />'s profile
 	</h1>
 
 	{#if errorMessage}

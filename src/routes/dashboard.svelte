@@ -10,15 +10,11 @@
 	import DashboardGrid from '$lib/components/DashboardGrid.svelte';
 	import { session } from '$app/stores';
 	import { createFlash } from '$lib/Flash';
-
-	$: console.log($session.hasSeenNewUserDialog);
 </script>
 
 <DashboardGrid
 	items={$session.user.dashboardWidgets}
 	on:change={async (items) => {
-		console.log('UPDATING DASHBOARD WIDGETS', items);
-
 		$session.user.dashboardWidgets = items.detail;
 
 		const res = await fetch('/api/updateProfile', {

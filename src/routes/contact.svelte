@@ -11,11 +11,13 @@
 	let message: string = '';
 	let recaptchaKey = '';
 
+	import Button from '$lib/components/Button.svelte';
 	import { createFlash } from '$lib/Flash';
 </script>
 
+<h1 class="text-2xl mb-4">Contact</h1>
 <form
-	class="flex flex-col w-prose mx-auto"
+	class="flex flex-col w-prose max-w-full gap-4 flex-grow"
 	on:submit|preventDefault={async () => {
 		let oldRecaptchaKey = recaptchaKey;
 		recaptchaKey = '';
@@ -69,10 +71,10 @@
 		}
 	}}
 >
-	<label class="w-full">
+	<label class="w-full flex-grow flex flex-col">
 		<p>Message</p>
 		<textarea
-			class="p-2 border border-gray-200 rounded-sm focus:border-gray-400 outline-none w-full"
+			class="flex-grow p-2 border border-gray-200 rounded-sm focus:border-gray-400 outline-none w-full"
 			bind:value={message}
 		/>
 	</label>
@@ -94,7 +96,6 @@
 			/>
 		</div>
 	{/if}
-	<button class="p-2 mt-2 bg-blue-500 text-white rounded-sm hover:bg-blue-700 focus:outline-none"
-		>Send</button
-	>
+
+	<Button type="submit">Send</Button>
 </form>

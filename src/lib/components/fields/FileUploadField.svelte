@@ -10,7 +10,6 @@
 	const onFileSelected = async (e) => {
 		let image = e.target.files[0] as File;
 		let fileType = e.target.files[0].type as string;
-		console.log(fileType);
 
 		let formData = new FormData();
 		formData.append('image', image);
@@ -22,7 +21,6 @@
 		const json = await res.json();
 
 		if (res.status !== 200) {
-			console.log(json);
 			$session.flash = [
 				...$session.flash,
 				createFlash({

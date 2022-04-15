@@ -30,7 +30,6 @@ export const post = composeApiMiddleware(
 			}
 		};
 	} catch (error) {
-		console.log(error);
 		return {
 			status: 400,
 			body: {
