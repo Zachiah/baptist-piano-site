@@ -7,5 +7,5 @@
     @apply bg-gray-200;
 }
 .svelte-table td, .svelte-table th {
-    @apply p-2 px-8 text-left border-l border-gray-400
+    @apply p-2 px-8 text-left
 }
