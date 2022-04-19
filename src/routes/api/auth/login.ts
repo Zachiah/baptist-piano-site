@@ -3,7 +3,7 @@ import prismaInstance from '$lib/prismaInstance';
 import Joi from 'joi';
 import dayjs from 'dayjs';
 import { EMAIL_TOKEN_EXPIRATION_MINUTES } from '$lib/config';
-import { TokenType } from '@prisma/client';
+import p from '@prisma/client';
 import sendEmailToken from '$lib/sendEmailToken';
 import { composeApiMiddleware } from '$lib/middleware/utils';
 import withNoApiUser from '$lib/middleware/api/withNoApiUser';
@@ -56,7 +56,7 @@ export const post = composeApiMiddleware(
 	const createdToken = await prismaInstance.token.create({
 		data: {
 			emailToken,
-			type: TokenType.EMAIL,
+			type: p.TokenType.EMAIL,
 			expiration: tokenExpiration.toDate(),
 			user: {
 				connectOrCreate: {

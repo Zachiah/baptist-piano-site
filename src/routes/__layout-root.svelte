@@ -8,7 +8,7 @@
 	import "../styles.css";
 </script>
 
-<NewUserDialog />
+<!-- <NewUserDialog /> -->
 <Flash />
 
 <slot />

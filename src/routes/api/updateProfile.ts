@@ -2,7 +2,7 @@ import withApiSchema from '$lib/middleware/api/withApiSchema';
 import withApiUser from '$lib/middleware/api/withApiUser';
 import { composeApiMiddleware } from '$lib/middleware/utils';
 import prismaInstance from '$lib/prismaInstance';
-import { Gender } from '@prisma/client';
+import p from '@prisma/client';
 import Joi from 'joi';
 
 const schema = Joi.object({
@@ -24,9 +24,9 @@ export const post = composeApiMiddleware(
 		lastName: event.middleware.schemaValue.lastName ?? event.middleware.user.lastName ?? undefined,
 		gender:
 			event.middleware.schemaValue.gender === 'male'
-				? Gender.MALE
+				? p.Gender.MALE
 				: event.middleware.schemaValue.gender === 'female'
-				? Gender.FEMALE
+				? p.Gender.FEMALE
 				: event.middleware.user.gender ?? undefined,
 		biography:
 			event.middleware.schemaValue.biography ?? event.middleware.user.biography ?? undefined,

@@ -1,5 +1,5 @@
 import type { ApiMiddleware, ClientMiddleware, MergeMiddlewareData } from '$lib/middleware/types';
-import compose from 'lodash/fp/compose';
+import compose from 'lodash/fp/compose.js';
 
 export const composeApiMiddleware =
 	<T extends any[]>(

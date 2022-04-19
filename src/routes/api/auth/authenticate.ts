@@ -6,7 +6,7 @@ import { composeApiMiddleware } from '$lib/middleware/utils';
 import prismaInstance from '$lib/prismaInstance';
 import { authenticateSchema } from '$lib/schemas/User';
 import { AUTHENTICATION_TOKEN_EXPIRATION_HOURS } from '$lib/sensitiveConfig';
-import { prisma, TokenType } from '@prisma/client';
+import p from '@prisma/client';
 import dayjs from 'dayjs';
 
 export const post = composeApiMiddleware(
@@ -55,7 +55,7 @@ export const post = composeApiMiddleware(
 
 	const createdToken = await prismaInstance.token.create({
 		data: {
-			type: TokenType.API,
+			type: p.TokenType.API,
 			expiration: tokenExpiration,
 			user: {
 				connect: {

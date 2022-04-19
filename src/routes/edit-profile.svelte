@@ -9,22 +9,22 @@
 	import NumberInput from '$lib/components/NumberInput.svelte';
 	import Joi from 'joi';
 	import { createFlash } from '$lib/Flash';
-	import { Gender, type Prisma } from '@prisma/client';
 	import Button from '$lib/components/Button.svelte';
 	import ArrowLeft from 'svelte-icons/md/MdArrowBack.svelte';
 	import withClientUser from '$lib/middleware/client/withClientUser';
 	import sendClient200StatusCodeCallback from '$lib/middleware/client/sendClient200StatusCodeCallback';
 	import UsernameTag from '$lib/components/UsernameTag.svelte';
+	import p from '@prisma/client';
 
 	let firstName = $session.user?.firstName ?? '';
 	let lastName = $session.user?.lastName ?? '';
 	let gender: 'male' | 'female' =
-		$session.user?.gender === Gender.MALE
+		$session.user?.gender === p.Gender.MALE
 			? 'male'
-			: $session.user?.gender === Gender.FEMALE
+			: $session.user?.gender === p.Gender.FEMALE
 			? 'female'
 			: undefined;
-	let bio: Prisma.JsonValue = $session.user?.biography ?? undefined;
+	let bio: p.Prisma.JsonValue = $session.user?.biography ?? undefined;
 	let age: number = $session.user?.age ?? undefined;
 
 	let errorMessage = '';

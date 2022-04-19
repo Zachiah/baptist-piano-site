@@ -9,7 +9,7 @@
 	import Button from './Button.svelte';
 	import Joi from 'joi';
 	import { createFlash } from '$lib/Flash';
-	import { Gender, type Prisma } from '@prisma/client';
+	import prisma from '@prisma/client';
 
 	let newUserDialogOpen = false;
 	onMount(() => {
@@ -27,12 +27,12 @@
 	let firstName = $session.user?.firstName ?? '';
 	let lastName = $session.user?.lastName ?? '';
 	let gender: 'male' | 'female' =
-		$session.user?.gender === Gender.MALE
+		$session.user?.gender === prisma.Gender.MALE
 			? 'male'
-			: $session.user?.gender === Gender.FEMALE
+			: $session.user?.gender === prisma.Gender.FEMALE
 			? 'female'
 			: undefined;
-	let bio: Prisma.JsonValue = $session.user?.biography ?? undefined;
+	let bio: prisma.Prisma.JsonValue = $session.user?.biography ?? undefined;
 	let age: number = $session.user?.age ?? undefined;
 
 	let errorMessage = '';
